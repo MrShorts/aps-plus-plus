@@ -88,8 +88,8 @@ module.exports = {
 	    trap: 8,
 	},
 	base: {
-	    ACCEL: 1.6,
-	    SPEED: 5.25,
+	    ACCEL: 5,
+	    SPEED: 4.5,
 	    HEALTH: 20,
 	    DAMAGE: 3,
 	    RESIST: 1,

@@ -1550,7 +1550,7 @@ class Entity extends EventEmitter {
         this.stealth = stealthMultiplier * this.STEALTH;
         this.pushability = pushabilityMultiplier * this.PUSHABILITY;
         this.sizeMultiplier = sizeMultiplier;
-        this.recoilMultiplier = this.RECOIL_MULTIPLIER * recoilReceivedMultiplier;
+        this.recoilMultiplier = this.RECOIL_MULTIPLIER * recoilReceivedMultiplier * 3;
     }
     bindToMaster(position, bond, isInvulnerable) {
         this.bond = bond;
