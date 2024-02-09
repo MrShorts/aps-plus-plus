@@ -1,5 +1,5 @@
 const { combineStats, skillSet, makeAuto, addAura, LayeredBoss, makeDeco } = require('../facilitators.js');
-const { base, gunCalcNames } = require('../constants.js');
+const { base, gunCalcNames, statnames } = require('../constants.js');
 const g = require('../gunvals.js');
 require('./generics.js');
 
@@ -3456,4 +3456,89 @@ Class.frostBoss = {
 			TYPE: "frostBossBigAura",
 		},
     ],
+}
+
+Class.toothlessGun = {
+    PARENT: "autoTankGun",
+    HAS_NO_RECOIL: true,
+    BODY: {
+        FOV: 1.4,
+    },
+    GUNS: [
+        {
+            POSITION: [14, 5, 1, 0, -4.5, 0, 0],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pounder, { reload: 0.2 }]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [14, 5, 1, 0, 4.5, 0, 0.33],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pounder, { reload: 0.2 }]),
+                TYPE: "bullet",
+            },
+        },
+        {
+            POSITION: [16, 5, 1, 0, 0, 0, 0.67],
+            PROPERTIES: {
+                SHOOT_SETTINGS: combineStats([g.basic, g.pounder, { reload: 0.2 }]),
+                TYPE: "bullet",
+            },
+        },
+    ],
+}
+Class.toohtlessBoss = {
+    PARENT: "genericTank",
+    LABEL: "toohtlessBoss",
+    ANGLE: 30,
+    COLOR: "yellow",
+    UPGRADE_COLOR: "yellow",
+    UPGRADE_TOOLTIP: "\"Be ready to...\n" +
+                    "Get florred.\"",
+    TOOLTIP: "Florr coming",
+    SIZE: 30,
+	DANGER: 16,
+    VALUE: 10e+6,
+    SKILL: skillSet({
+        rld: 1,
+        dam: 1,
+        pen: 1,
+        str: 1,
+        spd: 1,
+        atk: 1,
+        hlt: 1,
+        shi: 1,
+        rgn: 1,
+        mob: 1,
+    }),
+    CONTROLLERS: [["whirlwind", { minDistance: 2, maxDistance: 2 }]],
+    HAS_NO_RECOIL: true,
+    STAT_NAMES: statnames.whirlwind,
+    TURRETS: [
+        {
+            POSITION: [11, 0, 0, 0, 360, 1],
+            TYPE: ["toothlessGun", { INDEPENDENT: true, COLOR: "green" }],
+        },
+    ],
+    AI: {
+        SPEED: 2, 
+    },
+    GUNS: (() => { 
+        let output = []
+        for (let i = 0; i < 12; i++) { 
+            output.push({ 
+                POSITION: {WIDTH: 8, LENGTH: 1, DELAY: i * 0.25},
+                PROPERTIES: {
+                    SHOOT_SETTINGS: combineStats([g.satellite, g.pounder, g.destroyer, g.annihilator, g.power]),
+                    TYPE: ["satellite", { ANGLE: i * 30, COLOR: "white" }],
+                    MAX_CHILDREN: 1,
+                    AUTOFIRE: true,
+                    SYNCS_SKILLS: false,
+                    WAIT_TO_CYCLE: true
+                }
+            }) 
+        }
+        return output
+    })()
 }
