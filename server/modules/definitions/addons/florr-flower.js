@@ -3,9 +3,9 @@ const { statnames } = require('../constants.js');
 const g = require('../gunvals.js');
 
 // This addon is disabled by default.
-// return console.log('[balls.js] Addon disabled by default');
+// return console.log('[florr-flower.js] Addon disabled by default');
 
-class ball_thrower extends IO {
+class petals extends IO {
     constructor(body, opts = {}) {
         super(body);
         this.body.angle = 0;
@@ -40,14 +40,14 @@ class ball_thrower extends IO {
         this.setStage();
     }
 }
-ioTypes.ball_thrower = ball_thrower;
+ioTypes.petals = petals;
 
 // based on whirlwind code
-Class.ball_thrower = {
+Class.flower = {
     PARENT: "genericTank",
-    LABEL: "Ball_thrower",
+    LABEL: "flower",
     ANGLE: 60,
-    CONTROLLERS: ["ball_thrower"],
+    CONTROLLERS: ["petals"],
     HAS_NO_RECOIL: true,
     STAT_NAMES: statnames.whirlwind,
     AI: {
@@ -72,5 +72,5 @@ Class.ball_thrower = {
     })()
 };
 
-Class.addons.UPGRADES_TIER_0.push("ball_thrower");
-console.log('[balls] has been loaded.');
+Class.addons.UPGRADES_TIER_0.push("flower");
+console.log('[florr-flower] has been loaded.');
