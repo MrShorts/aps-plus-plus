@@ -87,8 +87,7 @@ class Gun {
             this.independentChildren = info.PROPERTIES.INDEPENDENT_CHILDREN == null ? false : info.PROPERTIES.INDEPENDENT_CHILDREN;
             if (info.PROPERTIES.COLOR != null) {
                 if (typeof info.PROPERTIES.COLOR === "number" || typeof info.PROPERTIES.COLOR === "string") {
-                    if (!isNaN(info.PROPERTIES.COLOR) && !isNaN(parseFloat(info.PROPERTIES.COLOR)) || /^[a-zA-Z]*$/.test(info.PROPERTIES.COLOR))
-                        this.colorUnboxed.base = info.PROPERTIES.COLOR;
+                    this.colorUnboxed.base = info.PROPERTIES.COLOR;
                 }
                 else if (typeof info.PROPERTIES.COLOR === "object")
                     this.colorUnboxed = {
@@ -209,7 +208,7 @@ class Gun {
         // Find out some intermediate values
         let angle1 = this.direction + this.angle + this.body.facing,
             angle2 = this.angle + this.body.facing,
-            gunlength = 1.5 * this.length - this.width * this.settings.size,
+            gunlength = this.length - this.width * this.settings.size / 2,
 
             // Calculate offsets based on lengths and directions
             offsetBaseX = this.offset * Math.cos(angle1),
@@ -348,25 +347,7 @@ class Gun {
             o.team = this.body.team;
             o.refreshBodyAttributes();
             o.life();
-            this.altFire ? this.master.ON(
-                undefined,
-                'altFire',
-                {
-                    gun: this,
-                    store: this.store,
-                    globalStore: this.globalStore,
-                    child: o
-                }
-            ) : this.master.ON(
-                undefined,
-                'fire',
-                {
-                    gun: this,
-                    store: this.store,
-                    globalStore: this.globalStore,
-                    child: o
-                }
-            )
+            this.master.ON(undefined, this.altFire ? 'altFire' : 'fire', { gun: this, store: this.store, globalStore: this.globalStore, child: o });
             return;
         }
 
@@ -386,27 +367,7 @@ class Gun {
         this.bulletInit(o);
         o.coreSize = o.SIZE;
 
-        this.altFire ? this.master.ON(
-            undefined, 
-            'altFire',   
-                {   
-                    gun: this, 
-                    store: this.store, 
-                    globalStore: this.
-                    globalStore, 
-                    child: o 
-                }
-            ) : this.master.ON(
-                undefined, 
-                'fire', 
-                { 
-                    gun: this, 
-                    store: this.store, 
-                    globalStore: 
-                    this.globalStore, 
-                    child: o 
-                }
-            )
+        this.master.ON(undefined, this.altFire ? 'altFire' : 'fire', { gun: this, store: this.store, globalStore: this.globalStore, child: o });
     }
     bulletInit(o) {
         // Define it by its natural properties
@@ -927,8 +888,8 @@ class Entity extends EventEmitter {
                 needsBodyAttribRefresh = true;
                 this.emit('expiredStatusEffect', entry.effect);
             }
-            if (entry.effect.tick && entry.effect.tick(this, entry.effect)) {
-                needsBodyAttribRefresh = true
+            if (entry.effect.tick && entry.effect.tick(this, entry.effect, entry.durationLeftover)) {
+                needsBodyAttribRefresh = true;
             }
         }
         this.statusEffects = lastingEffects;
@@ -1682,7 +1643,7 @@ class Entity extends EventEmitter {
         let old = this;
         if (
             number < this.upgrades.length &&
-            this.level >= this.upgrades[number].level
+            this.skill.level >= this.upgrades[number].level
         ) {
             let upgrade = this.upgrades[number],
                 upgradeClass = upgrade.class,
@@ -1768,7 +1729,7 @@ class Entity extends EventEmitter {
             case "motor":
                 this.maxSpeed = 0;
                 if (this.topSpeed) {
-                    this.damp = a / this.topSpeed;
+                    this.damp = Math.abs(a) / this.topSpeed;
                 }
                 if (gactive) {
                     let len = Math.sqrt(g.x * g.x + g.y * g.y);

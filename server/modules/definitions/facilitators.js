@@ -725,6 +725,7 @@ class LayeredBoss {
         this.layerSize -= layerScale ?? this.layerScale;
         let layer = {
             PARENT: "genericTank",
+            LABEL: "",
             SHAPE: this.shape,
             COLOR: -1,
             INDEPENDENT: true,

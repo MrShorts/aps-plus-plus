@@ -111,11 +111,11 @@ class BossRush {
                 tile.color = 'white';
             } else */if (o.team === TEAM_ENEMIES) {
                 this.spawnSanctuary(tile, TEAM_BLUE, Class.sanctuaryTier3);
-                tile.color = getTeamColor(TEAM_BLUE);
+                tile.color = getTeamColor(TEAM_BLUE) + ' 0 1 0 false';
                 sockets.broadcast('A sanctuary has been repaired!');
             } else {
                 this.spawnSanctuary(tile, TEAM_ENEMIES, Class.dominator);
-                tile.color = getTeamColor(TEAM_ENEMIES);
+                tile.color = getTeamColor(TEAM_ENEMIES) + ' 0 1 0 false';
                 sockets.broadcast('A sanctuary has been destroyed!');
             }
             sockets.broadcastRoom();

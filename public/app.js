@@ -76,11 +76,6 @@ let animations = window.animations = {
     disconnected: new Animation(1, 0),
     deathScreen: new Animation(1, 0),
     error: new Animation(1, 0),
-    upgradeMenu: new Animation(0, 1, 0.01),
-    skillMenu: new Animation(0, 1, 0.01),
-    optionsMenu: new Animation(1, 0),
-    minimap: new Animation(-1, 1, 0.025),
-    leaderboard: new Animation(-1, 1, 0.025)
 };
 
 // Mockup functions
@@ -226,7 +221,7 @@ var c = window.canvas.cv;
 var ctx = c.getContext("2d");
 var c2 = document.createElement("canvas");
 var ctx2 = c2.getContext("2d");
-ctx2.imageSmoothingEnabled = false;
+ctx2.imageSmoothingEnabled = true;
 // Animation things
 function Smoothbar(value, speed, sharpness = 3, lerpValue = 0.025) {
     let time = Date.now();
@@ -244,6 +239,9 @@ function Smoothbar(value, speed, sharpness = 3, lerpValue = 0.025) {
             display = util.lerp(display, value, lerpValue);
             if (Math.abs(value - display) < 0.1 && round) display = value;
             return display;
+        },
+        force: (val) => {
+            display = value = val;
         },
     };
 }
@@ -800,7 +798,6 @@ const drawEntity = (baseColor, x, y, instance, ratio, alpha = 1, scale = 1, line
         context.canvas.width = context.canvas.height = drawSize * m.position.axis + ratio * 20;
         xx = context.canvas.width / 2 - (drawSize * m.position.axis * m.position.middle.x * Math.cos(rot)) / 4;
         yy = context.canvas.height / 2 - (drawSize * m.position.axis * m.position.middle.x * Math.sin(rot)) / 4;
-        context.translate(0.5, 0.5);
     } else {
         if (fade * alpha < 0.5) return;
     }
@@ -914,7 +911,7 @@ const drawEntity = (baseColor, x, y, instance, ratio, alpha = 1, scale = 1, line
     if (assignedContext == false && context != ctx && context.canvas.width > 0 && context.canvas.height > 0) {
         ctx.save();
         ctx.globalAlpha = alpha * fade;
-        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled = true;
         //ctx.globalCompositeOperation = "overlay";
         ctx.drawImage(context.canvas, x - xx, y - yy);
         ctx.restore();
@@ -1004,8 +1001,8 @@ function drawEntityIcon(model, x, y, len, height, lineWidthMult, angle, alpha, c
 window.requestAnimFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || (callback => setTimeout(callback, 1000 / 60));
 window.cancelAnimFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 // Drawing states
-const statMenu = Smoothbar(0, 0.7, 1.5, 0.05);
-const upgradeMenu = Smoothbar(0, 2, 3, 0.05);
+const statMenu = Smoothbar(0, 0.7, 1.5, 0.1);
+const upgradeMenu = Smoothbar(0, 2, 3, 0.1);
 // Define the graph constructor
 function graph() {
     var data = [];
@@ -1682,15 +1679,19 @@ function drawLeaderboard(spacing, alcoveSize, max) {
 
 function drawAvailableUpgrades(spacing, alcoveSize) {
     // Draw upgrade menu
-    upgradeMenu.set(0 + (global.canUpgrade || global.upgradeHover));
-    let glide = upgradeMenu.get();
     global.clickables.upgrade.hide();
     if (gui.upgrades.length > 0) {
         global.canUpgrade = true;
         let internalSpacing = 15;
         let len = alcoveSize / 2;
         let height = len;
-        let x = glide * 2 * spacing - spacing;
+
+        // Animation processing
+        let columnCount = Math.max(3, Math.ceil(gui.upgrades.length / 4));
+        upgradeMenu.set(columnCount + 0.5);
+        let glide = upgradeMenu.get();
+
+        let x = (glide - columnCount - 0.5) * len + spacing;
         let y = spacing - height - 2.5 * internalSpacing;
         let xStart = x;
         let initialX = x;
@@ -1699,10 +1700,10 @@ function drawAvailableUpgrades(spacing, alcoveSize) {
         let ticker = 0;
         let upgradeNum = 0;
         let colorIndex = 10;
-        let columnCount = Math.max(3, Math.ceil(gui.upgrades.length / 4));
         let clickableRatio = global.canvas.height / global.screenHeight / global.ratio;
         let lastBranch = -1;
         upgradeSpin += 0.01;
+
         for (let i = 0; i < gui.upgrades.length; i++) {
             let upgrade = gui.upgrades[i];
             let upgradeBranch = upgrade[0];
@@ -1724,7 +1725,7 @@ function drawAvailableUpgrades(spacing, alcoveSize) {
                 lastBranch = upgradeBranch;
                 ticker = 0;
             } else {
-                x += glide * (len + internalSpacing);
+                x += len + internalSpacing;
             }
 
             if (y > initialY) initialY = y;
@@ -1780,6 +1781,7 @@ function drawAvailableUpgrades(spacing, alcoveSize) {
         }
     } else {
         global.canUpgrade = false;
+        upgradeMenu.force(0);
         global.clickables.upgrade.hide();
         global.clickables.skipUpgrades.hide();
     }

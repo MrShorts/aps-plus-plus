@@ -17,7 +17,7 @@ spawn = (tile, team, color, type = false) => {
     o.isDominator = true;
     o.controllers = [new ioTypes.nearestDifferentMaster(o), new ioTypes.spin(o, { onlyWhenIdle: true })];
 
-    tile.color = color;
+    tile.color = color + ' 0 1 0 false';
 
     if (!teamcounts[team]) {
         teamcounts[team] = 0;

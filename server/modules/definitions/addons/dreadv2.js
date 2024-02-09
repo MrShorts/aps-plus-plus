@@ -57,6 +57,9 @@ const buildHexnoughts = true;
 // Set the below variable to true to enable photosphere with 10 auras instead of 6.
 const useOldPhotosphere = false;
 
+// Set the below variable to true to enable the old teal hexagon color.
+const useTealHexdreads = false;
+
 // For hexnought merging
 const hexnoughtScaleFactor = 0.9;
 
@@ -102,7 +105,7 @@ Class.genericHexnought = {
 	PARENT: ["genericDreadnoughtOfficialV2"],
 	BODY: hexnoughtBody,
 	SHAPE: 6,
-	COLOR: 0,
+	COLOR: useTealHexdreads ? 0 : 'magenta',
 	SIZE: 26,
 	DANGER: 12,
 }
@@ -691,24 +694,24 @@ Class.jumboOfficialV2 = {
 		},
 	],
 }
-Class.colossalTopOfficialV2 = {
+Class.colossusTopOfficialV2 = {
 	PARENT: ["genericSquarenought"],
 	GUNS: [],
 }
 for (let i = 0; i < 4; i++) {
-	Class.colossalTopOfficialV2.GUNS.push(
+	Class.colossusTopOfficialV2.GUNS.push(
 		{
 			POSITION: [3.5, 17.5, 0.001, 9, 0, 90*i, 0],
 			PROPERTIES: {COLOR: 9},
 		},
 	)
 }
-Class.colossalBottomOfficialV2 = {
+Class.colossusBottomOfficialV2 = {
 	PARENT: ["genericSquarenought"],
 	GUNS: [],
 }
 for (let i = 0; i < 4; i++) {
-	Class.colossalTopOfficialV2.GUNS.push(
+	Class.colossusTopOfficialV2.GUNS.push(
 		{
 			POSITION: [3.5, 17.5, 0.001, 9, 0, 90*i, 0],
 			PROPERTIES: {COLOR: 9},
@@ -716,16 +719,16 @@ for (let i = 0; i < 4; i++) {
 	)
 }
 for (let i = 0; i < 4; i++) {
-	Class.colossalBottomOfficialV2.GUNS.push(
+	Class.colossusBottomOfficialV2.GUNS.push(
 		{
 			POSITION: [4, 17.5, 0.001, 9, 0, 90*i, 0],
 			PROPERTIES: {COLOR: 9},
 		},
 	)
 }
-Class.colossalOfficialV2 = {
+Class.colossusOfficialV2 = {
 	PARENT: ["genericSquarenought"],
-	LABEL: "Colossal",
+	LABEL: "colossus",
 	BODY: {
 		SPEED: 1.75,
 		HEALTH: 0.65,
@@ -734,11 +737,11 @@ Class.colossalOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 0, 0, 1],
-			TYPE: ['colossalTopOfficialV2', {MIRROR_MASTER_ANGLE: true}]
+			TYPE: ['colossusTopOfficialV2', {MIRROR_MASTER_ANGLE: true}]
 		},
 		{
 			POSITION: [20, 0, 0, 0, 0, 0],
-			TYPE: ['colossalBottomOfficialV2', {MIRROR_MASTER_ANGLE: true}]
+			TYPE: ['colossusBottomOfficialV2', {MIRROR_MASTER_ANGLE: true}]
 		},
 	],
 }
@@ -1776,7 +1779,7 @@ Class.skynetOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [12, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		}
 	],
 }
@@ -1803,7 +1806,7 @@ Class.supernovaOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [9, 0, 0, 0, 360, 1],
@@ -1825,7 +1828,7 @@ Class.cipherOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 	],
 }
@@ -1850,7 +1853,7 @@ Class.interstellarOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [9.5, 0, 0, 0, 360, 1],
@@ -1885,7 +1888,7 @@ Class.gigabyteOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [14.5, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [13, 0, 0, 0, 360, 1],
@@ -1899,7 +1902,7 @@ Class.malwareOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 	],
 }
@@ -1925,7 +1928,7 @@ Class.softwareOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 	],
 }
@@ -1953,7 +1956,7 @@ Class.photosphereOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [12, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 	],
 }
@@ -1996,7 +1999,7 @@ Class.stratosphereOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [9.5, 0, 0, 0, 360, 1],
@@ -2044,11 +2047,11 @@ Class.astronomicOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [24, 0, 0, 180, 0, 0],
-			TYPE: ["pentagon", {COLOR: 9,MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: 9, MIRROR_MASTER_ANGLE: true}],
 		},
 	],
 }
@@ -2072,11 +2075,11 @@ Class.grandioseOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [13, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [24, 0, 0, 180, 0, 0],
-			TYPE: ["pentagon", {COLOR: 9,MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: 9, MIRROR_MASTER_ANGLE: true}],
 		},
 	],
 }
@@ -2151,11 +2154,11 @@ Class.leviathanOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [12, 0, 0, 0, 0, 1],
-			TYPE: ["pentagonLeviathanTopOfficialV2", {MIRROR_MASTER_ANGLE: true}]
+			TYPE: ["pentagonLeviathanTopOfficialV2", {COLOR: -1, MIRROR_MASTER_ANGLE: true}]
 		},
 		{
 			POSITION: [20, 0, 0, 0, 0, 0],
-			TYPE: ["pentagonLeviathanBottomOfficialV2", {MIRROR_MASTER_ANGLE: true}]
+			TYPE: ["pentagonLeviathanBottomOfficialV2", {COLOR: -1, MIRROR_MASTER_ANGLE: true}]
 		},
 	],
 }
@@ -2170,11 +2173,11 @@ Class.valrayvnOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [12, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [20, 0, 0, 0, 0, 0],
-			TYPE: ["pentagonLeviathanBottomOfficialV2", {MIRROR_MASTER_ANGLE: true}]
+			TYPE: ["pentagonLeviathanBottomOfficialV2", {COLOR: -1, MIRROR_MASTER_ANGLE: true}]
 		},
 	],
 }
@@ -2197,11 +2200,11 @@ Class.pegasusOfficialV2 = {
 	TURRETS: [
 		{
 			POSITION: [12, 0, 0, 180, 0, 1],
-			TYPE: ["pentagon", {MIRROR_MASTER_ANGLE: true}],
+			TYPE: ["pentagon", {COLOR: -1, MIRROR_MASTER_ANGLE: true}],
 		},
 		{
 			POSITION: [20, 0, 0, 0, 0, 0],
-			TYPE: ["pentagonLeviathanBottomOfficialV2", {MIRROR_MASTER_ANGLE: true}]
+			TYPE: ["pentagonLeviathanBottomOfficialV2", {COLOR: -1, MIRROR_MASTER_ANGLE: true}]
 		},
 	],
 }
@@ -2277,56 +2280,56 @@ Class.addons.UPGRADES_TIER_0.push("dreadOfficialV2");
 
 			Class.automationOfficialV2.UPGRADES_TIER_0 = ["mechanismOfficialV2", "fusionOfficialV2", "binaryOfficialV2", "exosphereOfficialV2"];
 				Class.mechanismOfficialV2.UPGRADES_TIER_0 = ["skynetOfficialV2"];
-					Class.skynetOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("skynetOfficialV2")];
+					Class.skynetOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("skynetOfficialV2");
 				Class.fusionOfficialV2.UPGRADES_TIER_0 = ["supernovaOfficialV2"];
-					Class.supernovaOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("supernovaOfficialV2")];
+					Class.supernovaOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("supernovaOfficialV2");
 				Class.binaryOfficialV2.UPGRADES_TIER_0 = ["cipherOfficialV2"];
-					Class.cipherOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("cipherOfficialV2")];
+					Class.cipherOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("cipherOfficialV2");
 				Class.exosphereOfficialV2.UPGRADES_TIER_0 = ["interstellarOfficialV2"];
-					Class.interstellarOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("interstellarOfficialV2")];
+					Class.interstellarOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("interstellarOfficialV2");
 
 			Class.kilobyteOfficialV2.UPGRADES_TIER_0 = ["megabyteOfficialV2", "binaryOfficialV2", "trojanOfficialV2", "hardwareOfficialV2"];
 				Class.megabyteOfficialV2.UPGRADES_TIER_0 = ["gigabyteOfficialV2"];
-					Class.gigabyteOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("gigabyteOfficialV2")];
+					Class.gigabyteOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("gigabyteOfficialV2");
 				// Class.binaryOfficialV2.UPGRADES_TIER_0 = ["cipherOfficialV2"];
 				Class.trojanOfficialV2.UPGRADES_TIER_0 = ["malwareOfficialV2"];
-					Class.malwareOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("malwareOfficialV2")];
+					Class.malwareOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("malwareOfficialV2");
 				Class.hardwareOfficialV2.UPGRADES_TIER_0 = ["softwareOfficialV2"];
-					Class.softwareOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("softwareOfficialV2")];
+					Class.softwareOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("softwareOfficialV2");
 
 		Class.atmosphereOfficialV2.UPGRADES_TIER_0 = ["coronaOfficialV2", "thermosphereOfficialV2"];
 
 			Class.coronaOfficialV2.UPGRADES_TIER_0 = ["chromosphereOfficialV2", "fusionOfficialV2", "trojanOfficialV2", "planetOfficialV2"];
 				Class.chromosphereOfficialV2.UPGRADES_TIER_0 = ["photosphereOfficialV2"];
-					Class.photosphereOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("photosphereOfficialV2")];
+					Class.photosphereOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("photosphereOfficialV2");
 				// Class.fusionOfficialV2.UPGRADES_TIER_0 = ["supernovaOfficialV2"];
 				// Class.trojanOfficialV2.UPGRADES_TIER_0 = ["malwareOfficialV2"];
 				Class.planetOfficialV2.UPGRADES_TIER_0 = ["astronomicOfficialV2"];
-					Class.astronomicOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("astronomicOfficialV2")];
+					Class.astronomicOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("astronomicOfficialV2");
 
 			Class.thermosphereOfficialV2.UPGRADES_TIER_0 = ["mesosphereOfficialV2", "exosphereOfficialV2", "hardwareOfficialV2", "moonOfficialV2"];
 				Class.mesosphereOfficialV2.UPGRADES_TIER_0 = ["stratosphereOfficialV2"];
-					Class.stratosphereOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("stratosphereOfficialV2")];
+					Class.stratosphereOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("stratosphereOfficialV2");
 				// Class.exosphereOfficialV2.UPGRADES_TIER_0 = ["interstellarOfficialV2"];
 				// Class.hardwareOfficialV2.UPGRADES_TIER_0 = ["softwareOfficialV2"];
 				Class.moonOfficialV2.UPGRADES_TIER_0 = ["grandioseOfficialV2"];
-					Class.grandioseOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("grandioseOfficialV2")];
+					Class.grandioseOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("grandioseOfficialV2");
 
-		Class.juggernautOfficialV2.UPGRADES_TIER_0 = ["jumboOfficialV2", "colossalOfficialV2"];
+		Class.juggernautOfficialV2.UPGRADES_TIER_0 = ["jumboOfficialV2", "colossusOfficialV2"];
 
 			Class.jumboOfficialV2.UPGRADES_TIER_0 = ["goliathOfficialV2", "planetOfficialV2", "moonOfficialV2"];
 				Class.goliathOfficialV2.UPGRADES_TIER_0 = ["behemothOfficialV2"];
-					Class.behemothOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("behemothOfficialV2")];
+					Class.behemothOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("behemothOfficialV2");
 				// Class.planetOfficialV2.UPGRADES_TIER_0 = ["astronomicOfficialV2"];
 				// Class.moonOfficialV2.UPGRADES_TIER_0 = ["grandioseOfficialV2"];
 
-			Class.colossalOfficialV2.UPGRADES_TIER_0 = ["titanOfficialV2", "sirenOfficialV2", "harpyOfficialV2"];
+			Class.colossusOfficialV2.UPGRADES_TIER_0 = ["titanOfficialV2", "sirenOfficialV2", "harpyOfficialV2"];
 				Class.titanOfficialV2.UPGRADES_TIER_0 = ["leviathanOfficialV2"];
-					Class.leviathanOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("leviathanOfficialV2")];
+					Class.leviathanOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("leviathanOfficialV2");
 				Class.sirenOfficialV2.UPGRADES_TIER_0 = ["valrayvnOfficialV2"];
-					Class.valrayvnOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("valrayvnOfficialV2")];
+					Class.valrayvnOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("valrayvnOfficialV2");
 				Class.harpyOfficialV2.UPGRADES_TIER_0 = ["pegasusOfficialV2"];
-					Class.pegasusOfficialV2.UPGRADES_TIER_0 = [makeHexnoughtBodyV2("pegasusOfficialV2")];
+					Class.pegasusOfficialV2.UPGRADES_TIER_0 = makeHexnoughtBodyV2("pegasusOfficialV2");
 
 const hexDreadNames = {
 	Javelin: {
@@ -2491,7 +2494,7 @@ function mergeHexnoughtWeaponV2(weapon1, weapon2) {
 	return className;
 }
 function makeHexnoughtBodyV2(body) {
-	if (!buildHexnoughts) return;
+	if (!buildHexnoughts) return [];
 	
 	body = ensureIsClass(body);
 
@@ -2564,7 +2567,7 @@ function makeHexnoughtBodyV2(body) {
 	Class[className] = {
 		PARENT, BODY, LABEL, GUNS, TURRETS,
 	};
-	return className;
+	return [className];
 }
 
 // Merge hexdreads

@@ -121,6 +121,7 @@ makeLaby = (type, level) => {
             DENSITY: type.BODY.DENSITY,
             HEALTH: type.BODY.HEALTH * strenghtMultiplier,
             PENETRATION: type.BODY.PENETRATION,
+            PUSHABILITY: (type.BODY.PUSHABILITY / (level + 1)) || 0,
             ACCELERATION: type.BODY.ACCELERATION
         },
         VARIES_IN_SIZE: false,
@@ -333,10 +334,11 @@ Class.hexagon = {
     SIZE: 22,
     COLOR: "magenta",
     BODY: {
-        DAMAGE: 1.7 * basePolygonDamage,
+        DAMAGE: 3 * basePolygonDamage,
         DENSITY: 8,
-        HEALTH: 12 * basePolygonHealth,
+        HEALTH: 500 * basePolygonHealth,
         RESIST: 1.3,
+        SHIELD: 50 * basePolygonHealth,
         PENETRATION: 1.1,
         ACCELERATION: 0.003
     },
