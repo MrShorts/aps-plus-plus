@@ -1,27 +1,75 @@
-const { combineStats } = require('../facilitators.js');
-const { base } = require('../constants.js');
+const { combineStats, makeDeco } = require('../facilitators.js');
+const { statnames } = require('../constants.js');
 const g = require('../gunvals.js');
 
 // This addon is disabled by default.
-// Realy simple addon.
 // return console.log('[balls.js] Addon disabled by default');
 
+class ball_thrower extends IO {
+    constructor(body, opts = {}) {
+        super(body);
+        this.body.angle = 0;
+        this.minDistance = opts.minDistance ?? 2;
+        this.maxDistance = opts.maxDistance ?? 13;
+        this.norDistance = opts.norDistance ?? 4;
+        this.body.dist = opts.initialDist || this.norDistance * this.body.size;
+        this.body.inverseDist = this.maxDistance * this.body.size - this.body.dist + this.norDistance * this.body.size;
+        this.radiusScalingSpeed = opts.radiusScalingSpeed || 10;
+    }
+
+    setStage() {
+        let trueMaxDistance = this.maxDistance * this.body.size;
+        let trueMinDistance = this.minDistance * this.body.size;
+        let trueNorDistance = this.norDistance * this.body.size;
+        this.body.dist = this.stage == 1
+            ? trueNorDistance
+            : this.stage == 2
+                ? trueMaxDistance
+                : trueMinDistance
+    }
+
+    think(input) {
+        this.body.angle += (this.body.skill.spd * 2 + this.body.aiSettings.SPEED) * Math.PI / 180;
+
+        // 1 - nor
+        // 2 - max
+        // 3 - min
+        this.stage = 1;
+        if(input.fire) { this.stage = 2 }
+        if(input.alt) { this.stage = 3 }
+        this.setStage();
+    }
+}
+ioTypes.ball_thrower = ball_thrower;
+
+// based on whirlwind code
 Class.ball_thrower = {
-    PARENT: ["genericTank"],
-    LABEL: "Ball thrower",
-    BODY: {
-        FOV: 2,
-        HEALTH: base.HEALTH * 2,
-        SPEED: base.SPEED * 3,
-    },
-    DANGER: 6,
-    GUNS: [{
-        POSITION: [0, 20],
-        PROPERTIES: {
-            SHOOT_SETTINGS: combineStats([g.basic, { reload: 1.5, recoil: 0.25, health: 200, damage: 50, pen: 200, speed: 0.1, maxSpeed: 1000, range: 1.4, density: 4, spray: 0.25 }]),
-            TYPE: 'bullet',
+    PARENT: "genericTank",
+    LABEL: "Ball_thrower",
+    ANGLE: 60,
+    CONTROLLERS: ["ball_thrower"],
+    HAS_NO_RECOIL: true,
+    STAT_NAMES: statnames.whirlwind,
+    AI: {
+        SPEED: 2, 
+    }, 
+    GUNS: (() => { 
+        let output = []
+        for (let i = 0; i < 6; i++) { 
+            output.push({ 
+                POSITION: {WIDTH: 8, LENGTH: 1, DELAY: i * 0.25},
+                PROPERTIES: {
+                    SHOOT_SETTINGS: combineStats([g.satellite]), 
+                    TYPE: ["satellite", {ANGLE: i * 60}],
+                    MAX_CHILDREN: 1,
+                    AUTOFIRE: true,
+                    SYNCS_SKILLS: false,
+                    WAIT_TO_CYCLE: true
+                }
+            }) 
         }
-    }],
+        return output
+    })()
 };
 
 Class.addons.UPGRADES_TIER_0.push("ball_thrower");
